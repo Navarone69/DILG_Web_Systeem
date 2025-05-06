@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "DashDoard";
+}
+
+<div style="padding: 20px; display: flex; gap: 10px; justify-content: flex-start;">
+    <a href="#" style="background-color: #e0e0e0; color: black; font-weight: bold; border: none; padding: 10px 20px; border-radius: 30px; text-decoration: none;">
+        DASHBOARD
+    </a>
+    <a href="@Url.Action("FileUpload", "Home")" style="background-color: #e0e0e0; color: black; font-weight: bold; border: none; padding: 10px 20px; border-radius: 30px; text-decoration: none;">
+        File Upload
+    </a>
+    <a href="@Url.Action("SubmissionHistory", "Home")" style="background-color: #e0e0e0; color: black; font-weight: bold; border: none; padding: 10px 20px; border-radius: 30px; text-decoration: none;">
+        Submission History
+    </a>
+</div>
+
+<!-- Add this inside the <head> -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Place this inside the <body> -->
+<div style="width: 95vw; height: 100vh; margin: 0; padding: 0;">
+    <canvas id="comparisonChart" style="width:95%; height:100%;"></canvas>
+</div>
+
+<script>
+    var ctx = document.getElementById('comparisonChart').getContext('2d');
+    var comparisonChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [
+                {
+                    label: '2021',
+                    data: [400000, 500000, 300000, 450000, 600000, 800000, 200000, 300000, 500000, 700000, 800000, 400000],
+                    backgroundColor: 'deepskyblue'
+                },
+                {
+                    label: '2020',
+                    data: [500000, 600000, 400000, 350000, 200000, 500000, 150000, 250000, 450000, 600000, 500000, 450000],
+                    backgroundColor: 'gold'
+                }
+            ]
+        },
+        options: {
+            maintainAspectRatio: false, // Allow full height
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'black',
+                        font: {
+                            weight: 'bold'
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: 'black',
+                        callback: function (value) {
+                            return value / 1000000 + 'M'; // 1M format
+                        }
+                    },
+                    grid: {
+                        color: '#e0e0e0'
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: 'black'
+                    },
+                    grid: {
+                        color: '#e0e0e0'
+                    }
+                }
+            }
+        }
+    });
+</script>

@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "ReportHistory";
+}
+
+<table id="fileTable" class="table">
+    <thead>
+        <tr>
+            <th>File Name</th>
+            <th>Submitted By</th>
+            <th>Date and Time</th>
+            <th>Program</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Dynamic file entries will be added here -->
+    </tbody>
+</table>
+
+<script>
+    
+    // Delegate the delete button functionality
+    $('#fileTable').on('click', '.btn-danger', function () {
+        $(this).closest('tr').remove(); // Remove the row from the table
+    });
+
+    // Delegate the view button functionality
+    $('#fileTable').on('click', '.view-btn', function () {
+        // Implement view functionality here
+        alert('View functionality for ' + $(this).closest('tr').find('td:first').text());
+    });
+
+    // Delegate the update button functionality
+    $('#fileTable').on('click', '.update-btn', function () {
+        // Implement update functionality here
+        alert('Update functionality for ' + $(this).closest('tr').find('td:first').text());
+    });
+</script>

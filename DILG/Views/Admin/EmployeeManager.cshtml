@@ -1,0 +1,103 @@
+﻿
+@{
+    ViewBag.Title = "AccountTable";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">User Manager</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Admin")">Home</a></li>
+                        <li class="breadcrumb-item active">Dashboard</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    
+    <div class="card-body">
+        <!-- Main content -->
+        <a class="btn btn-round ms-auto btn-lg btn-success" >Create User</a>
+        <button class="btn btn-block btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#addRowModal">Create User</button>
+        <input type="text" id="search" placeholder="Search..." onkeyup="searchTable()">
+
+        <table class="table table-bordered" id="userTable">
+            <thead>
+                <tr>
+                    <th class="bg-olive color-palette" style="width: 10px">#</th>
+                    <th class="bg-olive color-palette" style="width: 40px">Last Name</th>
+                    <th class="bg-olive color-palette" style="width: 40px">First Name</th>
+                    <th class="bg-olive color-palette" style="width: 40px">Middle Name</th>
+                    <th class="bg-olive color-palette" style="width: 40px">Contact Number</th>
+                    <th class="bg-olive color-palette" style="width: 40px">Email Address</th>
+                    <th class="bg-olive color-palette" style="width: 40px">Position</th>
+                    <th class="bg-olive color-palette" style="width: 40px">Office</th>
+                    <th class="bg-olive color-palette" style="width: 40px">User Name</th>
+                    <th class="bg-olive color-palette" style="width: 40px">Password</th>
+                    <th class="bg-warning color-palette" style="width: 40px">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var Employee in Model)
+                {
+                    <tr>
+                        <td class="bg-olive disabled color-palette">@Employee.EmployeeID</td>
+                        <td class="bg-olive disabled color-palette">@Employee.LastName</td>
+                        <td class="bg-olive disabled color-palette">@Employee.FirstName</td>
+                        <td class="bg-olive disabled color-palette">@Employee.MiddleName</td>
+                        <td class="bg-olive disabled color-palette">@Employee.ContactNumber</td>
+                        <td class="bg-olive disabled color-palette">@Employee.EmailAddress</td>
+                        <td class="bg-olive disabled color-palette">@Employee.PositionID</td>
+                        <td class="bg-olive disabled color-palette">@Employee.OfficeID</td>
+                        <td class="bg-olive disabled color-palette">@Employee.UserName</td>
+                        <td class="bg-olive disabled color-palette">@Employee.Password</td>
+                        <td class="bg-warning disabled color-palette">
+                            <a class="btn btn-block btn-warning btn-sm" href="">Edit</a>
+                            <a class="btn btn-block btn-danger btn-sm" href="">Delete</a>
+                            <button class="btn btn-round ms-auto btn-lg btn-warning" onclick=""><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button class="btn btn-round ms-auto btn-lg btn-danger" onclick=""><i class="fa-solid fa-trash-xmark"></i></button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function searchTable() {
+        // Declare variables
+        const input = document.getElementById("search");
+        const filter = input.value.toLowerCase();
+        const table = document.getElementById("userTable");
+        const tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows (except the first, which is the header)
+        for (let i = 1; i < tr.length; i++) {
+            let found = false;
+            const td = tr[i].getElementsByTagName("td");
+
+            // Loop through all cells in each row
+            for (let j = 0; j < td.length; j++) {
+                if (td[j]) {
+                    const txtValue = td[j].textContent || td[j].innerText;
+                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            // Show or hide the row based on the search result
+            tr[i].style.display = found ? "" : "none";
+        }
+    }
+</script>
+

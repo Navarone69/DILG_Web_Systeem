@@ -1,0 +1,163 @@
+﻿@{
+    ViewBag.Title = "Datatables";
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Upload File</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="uploadForm" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="fileInput">Select file to upload:</label>
+                                <input type="file" class="form-control" id="fileInput" name="file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx" required />
+                                <small id="fileWarning" class="text-danger" style="display:none;">Invalid file type.</small>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="dueDate">Due Date</label>
+                                <input type="date" class="form-control" id="dueDate" name="dueDate" required />
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="remarks">Remarks</label>
+                                <input type="text" class="form-control" id="remarks" name="remarks" placeholder="Enter remarks" />
+                            </div>
+
+                            <button type="submit" class="btn btn-primary mt-3">Submit Report</button>
+                        </form>
+
+                        <hr />
+
+                        <div class="table-responsive mt-3">
+                            <table class="table table-bordered" id="reportTable" style="min-width:600px;">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Report Name</th>
+                                        <th>Frequency</th>
+                                        <th>Due Date</th>
+                                        <th>Remarks</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Rows will be added here dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Function to generate a random string of specified length
+    function generateFrequency(length) {
+        const characters = '0123-456789';
+        let result = '';
+        for (let i = 0; i < length; i++) {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            result += characters[randomIndex];
+        }
+        return result;
+    }
+
+    // Date input validation
+    const dateInput = document.getElementById('dueDate');
+
+    dateInput.addEventListener('input', function () {
+        const value = dateInput.value;
+        const parts = value.split('-');
+
+        // Check if the year is 4 digits
+        if (parts[0] && parts[0].length > 4) {
+            dateInput.value = parts[0].slice(0, 4) + '-' + parts[1] + '-' + parts[2];
+        }
+
+        // Check if the month is 2 digits
+        if (parts[1] && parts[1].length > 2) {
+            dateInput.value = parts[0] + '-' + parts[1].slice(0, 2) + '-' + parts[2];
+        }
+
+        // Check if the day is 2 digits
+        if (parts[2] && parts[2].length > 2) {
+            dateInput.value = parts[0] + '-' + parts[1] + '-' + parts[2].slice(0, 2);
+        }
+    });
+
+    document.getElementById('uploadForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const fileInput = document.getElementById('fileInput');
+        const dueDate = document.getElementById('dueDate').value;
+        const remarks = document.getElementById('remarks').value.trim();
+
+        if (!fileInput.files.length) {
+            alert('Please select a file.');
+            return;
+        }
+        if (!dueDate) {
+            alert('Please fill in all required fields.');
+            return;
+        }
+
+        const fileName = fileInput.files[0].name;
+        const allowedExtensions = /(\.pdf|\.jpg|\.jpeg|\.png|\.doc|\.docx|\.xls|\.xlsx)$/i;
+        // Validate file type
+        if (!allowedExtensions.exec(fileName)) {
+            fileWarning.style.display = 'block'; // Show warning message
+            fileInput.value = ''; // Clear the input
+            return;
+        } else {
+            fileWarning.style.display = 'none'; // Hide warning message
+        }
+
+        // Generate a frequency consisting of 18 characters
+        const frequency = generateFrequency(18);
+
+        // Format dueDate as MM/DD/YYYY
+        const dateObj = new Date(dueDate);
+        const month = (dateObj.getMonth() + 1).toString().padStart(2, '0 '); // Month is 0-indexed
+        const day = dateObj.getDate().toString().padStart(2, '0');
+        const year = dateObj.getFullYear(); // This will always return a four-digit year
+        const dueDateFormatted = `${month}/${day}/${year}`; // MM/DD/YYYY format
+
+        const tbody = document.querySelector('#reportTable tbody');
+        const tr = document.createElement('tr');
+
+        const tdReportName = document.createElement('td');
+        tdReportName.textContent = fileName;
+        tr.appendChild(tdReportName);
+
+        const tdFrequency = document.createElement('td');
+        tdFrequency.textContent = frequency;
+        tr.appendChild(tdFrequency);
+
+        const tdDueDate = document.createElement('td');
+        tdDueDate.textContent = dueDateFormatted;
+        tr.appendChild(tdDueDate);
+
+        const tdRemarks = document.createElement('td');
+        tdRemarks.textContent = remarks;
+        tr.appendChild(tdRemarks);
+
+        const tdAction = document.createElement('td');
+        const uploadButton = document.createElement('button');
+        uploadButton.type = 'button';
+        uploadButton.className = 'btn btn-sm btn-success';
+        uploadButton.textContent = 'Upload';
+        uploadButton.addEventListener('click', function () {
+            alert('Upload button clicked for "' + fileName + '"');
+        });
+        tdAction.appendChild(uploadButton);
+        tr.appendChild(tdAction);
+
+        tbody.appendChild(tr);
+
+        this.reset();
+    });
+</script>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ee399f8dd41e4d4c82a37ea10b7a5f61" Name="Diagram1" ZoomLevel="50">
+        <EntityTypeShape EntityType="DILG_DBModel.Attachment" Width="1.5" PointX="7.5" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DILG_DBModel.Employee" Width="1.5" PointX="3" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DILG_DBModel.Office" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DILG_DBModel.Position" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DILG_DBModel.Program" Width="1.5" PointX="3.25" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DILG_DBModel.ReportSubmission" Width="1.5" PointX="5.25" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DILG_DBModel.ReportSubmissionHistory" Width="1.5" PointX="7.5" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DILG_DBModel.ReportType" Width="1.5" PointX="5.25" PointY="7.375" IsExpanded="true" />
+        <AssociationConnector Association="DILG_DBModel.FK__Attachmen__Repor__66603565" ManuallyRouted="false" />
+        <AssociationConnector Association="DILG_DBModel.FK__Employee__Office__3B75D760" ManuallyRouted="false" />
+        <AssociationConnector Association="DILG_DBModel.FK__Employee__Positi__3A81B327" ManuallyRouted="false" />
+        <AssociationConnector Association="DILG_DBModel.FK__ReportSub__Submi__01142BA1" ManuallyRouted="false" />
+        <AssociationConnector Association="DILG_DBModel.FK__ReportTyp__Progr__656C112C" ManuallyRouted="false" />
+        <AssociationConnector Association="DILG_DBModel.FK__ReportSub__Repor__6477ECF3" ManuallyRouted="false" />
+        <AssociationConnector Association="DILG_DBModel.FK__ReportSub__Repor__6754599E" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DILG_DBModel.sysdiagram" Width="1.5" PointX="9.25" PointY="7.625" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

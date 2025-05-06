@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "PositionManager";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Position Manager</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Admin")">Home</a></li>
+                        <li class="breadcrumb-item active">Dashboard</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <div class="card-body">
+        <!-- Main content -->
+        <a class="btn btn-round ms-auto btn-lg btn-success">Create User</a>
+        <button class="btn btn-block btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#addRowModal">Create User</button>
+        <input type="text" id="search" placeholder="Search..." onkeyup="searchTable()">
+
+        <table class="table table-bordered" id="userTable">
+            <thead>
+                <tr>
+                    <th class="bg-olive color-palette" style="width: 10px">#</th>
+                    <th class="bg-olive color-palette" style="width: 40px">PositionName</th>
+                    <th class="bg-olive color-palette" style="width: 40px">Abbr</th>
+                    <th class="bg-warning color-palette" style="width: 40px">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var Position in Model)
+                {
+                    <tr>
+                        <td class="bg-olive disabled color-palette">@Position.Id</td>
+                        <td class="bg-olive disabled color-palette">@Position.LastName</td>
+                        <td class="bg-olive disabled color-palette">@Position.FirstName</td>
+                        <td class="bg-warning disabled color-palette">
+                            <a class="btn btn-block btn-warning btn-sm" href="">Edit</a>
+                            <a class="btn btn-block btn-danger btn-sm" href="">Delete</a>
+                            <button class="btn btn-round ms-auto btn-lg btn-warning" onclick=""><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button class="btn btn-round ms-auto btn-lg btn-danger" onclick=""><i class="fa-solid fa-trash-xmark"></i></button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

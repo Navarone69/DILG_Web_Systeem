@@ -1,0 +1,568 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DILG_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Attachment">
+          <Key>
+            <PropertyRef Name="AttachmentID" />
+          </Key>
+          <Property Name="AttachmentID" Type="int" Nullable="false" />
+          <Property Name="ReportSubmissionID" Type="int" Nullable="false" />
+          <Property Name="Filename" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="UploadedFile" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="smallint" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="MiddleName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="ContactNumber" Type="char" MaxLength="11" Nullable="false" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="PositionID" Type="smallint" Nullable="false" />
+          <Property Name="OfficeID" Type="smallint" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Office">
+          <Key>
+            <PropertyRef Name="OfficeID" />
+          </Key>
+          <Property Name="OfficeID" Type="smallint" Nullable="false" />
+          <Property Name="OfficeName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Abbr" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="300" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="PositionID" />
+          </Key>
+          <Property Name="PositionID" Type="smallint" Nullable="false" />
+          <Property Name="PositionName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Abbr" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Program">
+          <Key>
+            <PropertyRef Name="ProgramID" />
+          </Key>
+          <Property Name="ProgramID" Type="smallint" Nullable="false" />
+          <Property Name="ProgramName" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReportSubmission">
+          <Key>
+            <PropertyRef Name="ReportSubmissionID" />
+          </Key>
+          <Property Name="ReportSubmissionID" Type="int" Nullable="false" />
+          <Property Name="SubmittedBy" Type="smallint" Nullable="false" />
+          <Property Name="ReviewidBy" Type="smallint" Nullable="false" />
+          <Property Name="ApprovedBy" Type="smallint" Nullable="false" />
+          <Property Name="ReportTypeID" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReportSubmissionHistory">
+          <Key>
+            <PropertyRef Name="ReportSubmissionHistoryID" />
+          </Key>
+          <Property Name="ReportSubmissionHistoryID" Type="int" Nullable="false" />
+          <Property Name="ReportSubmissionID" Type="int" Nullable="false" />
+          <Property Name="DateSubmitted" Type="datetime" Nullable="false" />
+          <Property Name="Status" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReportType">
+          <Key>
+            <PropertyRef Name="ReportTypeID" />
+          </Key>
+          <Property Name="ReportTypeID" Type="smallint" Nullable="false" />
+          <Property Name="ProgramID" Type="smallint" Nullable="false" />
+          <Property Name="ReportTitle" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="ReportFrequency" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK__Attachmen__Repor__66603565">
+          <End Role="ReportSubmission" Type="Self.ReportSubmission" Multiplicity="1" />
+          <End Role="Attachment" Type="Self.Attachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportSubmission">
+              <PropertyRef Name="ReportSubmissionID" />
+            </Principal>
+            <Dependent Role="Attachment">
+              <PropertyRef Name="ReportSubmissionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employee__Office__3B75D760">
+          <End Role="Office" Type="Self.Office" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Office">
+              <PropertyRef Name="OfficeID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="OfficeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employee__Positi__3A81B327">
+          <End Role="Position" Type="Self.Position" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="PositionID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="PositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ReportSub__Repor__6477ECF3">
+          <End Role="ReportType" Type="Self.ReportType" Multiplicity="1" />
+          <End Role="ReportSubmission" Type="Self.ReportSubmission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportType">
+              <PropertyRef Name="ReportTypeID" />
+            </Principal>
+            <Dependent Role="ReportSubmission">
+              <PropertyRef Name="ReportTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ReportSub__Repor__6754599E">
+          <End Role="ReportSubmission" Type="Self.ReportSubmission" Multiplicity="1" />
+          <End Role="ReportSubmissionHistory" Type="Self.ReportSubmissionHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportSubmission">
+              <PropertyRef Name="ReportSubmissionID" />
+            </Principal>
+            <Dependent Role="ReportSubmissionHistory">
+              <PropertyRef Name="ReportSubmissionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ReportSub__Submi__01142BA1">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="ReportSubmission" Type="Self.ReportSubmission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="ReportSubmission">
+              <PropertyRef Name="SubmittedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ReportTyp__Progr__656C112C">
+          <End Role="Program" Type="Self.Program" Multiplicity="1" />
+          <End Role="ReportType" Type="Self.ReportType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Program">
+              <PropertyRef Name="ProgramID" />
+            </Principal>
+            <Dependent Role="ReportType">
+              <PropertyRef Name="ProgramID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DILG_DBModelStoreContainer">
+          <EntitySet Name="Attachment" EntityType="Self.Attachment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Office" EntityType="Self.Office" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Position" EntityType="Self.Position" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Program" EntityType="Self.Program" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportSubmission" EntityType="Self.ReportSubmission" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportSubmissionHistory" EntityType="Self.ReportSubmissionHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportType" EntityType="Self.ReportType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Attachmen__Repor__66603565" Association="Self.FK__Attachmen__Repor__66603565">
+            <End Role="ReportSubmission" EntitySet="ReportSubmission" />
+            <End Role="Attachment" EntitySet="Attachment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employee__Office__3B75D760" Association="Self.FK__Employee__Office__3B75D760">
+            <End Role="Office" EntitySet="Office" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employee__Positi__3A81B327" Association="Self.FK__Employee__Positi__3A81B327">
+            <End Role="Position" EntitySet="Position" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ReportSub__Repor__6477ECF3" Association="Self.FK__ReportSub__Repor__6477ECF3">
+            <End Role="ReportType" EntitySet="ReportType" />
+            <End Role="ReportSubmission" EntitySet="ReportSubmission" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ReportSub__Repor__6754599E" Association="Self.FK__ReportSub__Repor__6754599E">
+            <End Role="ReportSubmission" EntitySet="ReportSubmission" />
+            <End Role="ReportSubmissionHistory" EntitySet="ReportSubmissionHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ReportSub__Submi__01142BA1" Association="Self.FK__ReportSub__Submi__01142BA1">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="ReportSubmission" EntitySet="ReportSubmission" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ReportTyp__Progr__656C112C" Association="Self.FK__ReportTyp__Progr__656C112C">
+            <End Role="Program" EntitySet="Program" />
+            <End Role="ReportType" EntitySet="ReportType" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DILG_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Attachment">
+          <Key>
+            <PropertyRef Name="AttachmentID" />
+          </Key>
+          <Property Name="AttachmentID" Type="Int32" Nullable="false" />
+          <Property Name="ReportSubmissionID" Type="Int32" Nullable="false" />
+          <Property Name="Filename" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UploadedFile" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="ReportSubmission" Relationship="Self.FK__Attachmen__Repor__66603565" FromRole="Attachment" ToRole="ReportSubmission" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="Int16" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ContactNumber" Type="String" MaxLength="11" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="EmailAddress" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PositionID" Type="Int16" Nullable="false" />
+          <Property Name="OfficeID" Type="Int16" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Office" Relationship="Self.FK__Employee__Office__3B75D760" FromRole="Employee" ToRole="Office" />
+          <NavigationProperty Name="Position" Relationship="Self.FK__Employee__Positi__3A81B327" FromRole="Employee" ToRole="Position" />
+          <NavigationProperty Name="ReportSubmissions" Relationship="Self.FK__ReportSub__Submi__01142BA1" FromRole="Employee" ToRole="ReportSubmission" />
+        </EntityType>
+        <EntityType Name="Office">
+          <Key>
+            <PropertyRef Name="OfficeID" />
+          </Key>
+          <Property Name="OfficeID" Type="Int16" Nullable="false" />
+          <Property Name="OfficeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Abbr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK__Employee__Office__3B75D760" FromRole="Office" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="PositionID" />
+          </Key>
+          <Property Name="PositionID" Type="Int16" Nullable="false" />
+          <Property Name="PositionName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Abbr" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK__Employee__Positi__3A81B327" FromRole="Position" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Program">
+          <Key>
+            <PropertyRef Name="ProgramID" />
+          </Key>
+          <Property Name="ProgramID" Type="Int16" Nullable="false" />
+          <Property Name="ProgramName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ReportTypes" Relationship="Self.FK__ReportTyp__Progr__656C112C" FromRole="Program" ToRole="ReportType" />
+        </EntityType>
+        <EntityType Name="ReportSubmission">
+          <Key>
+            <PropertyRef Name="ReportSubmissionID" />
+          </Key>
+          <Property Name="ReportSubmissionID" Type="Int32" Nullable="false" />
+          <Property Name="SubmittedBy" Type="Int16" Nullable="false" />
+          <Property Name="ReviewidBy" Type="Int16" Nullable="false" />
+          <Property Name="ApprovedBy" Type="Int16" Nullable="false" />
+          <Property Name="ReportTypeID" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Attachments" Relationship="Self.FK__Attachmen__Repor__66603565" FromRole="ReportSubmission" ToRole="Attachment" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__ReportSub__Submi__01142BA1" FromRole="ReportSubmission" ToRole="Employee" />
+          <NavigationProperty Name="ReportType" Relationship="Self.FK__ReportSub__Repor__6477ECF3" FromRole="ReportSubmission" ToRole="ReportType" />
+          <NavigationProperty Name="ReportSubmissionHistories" Relationship="Self.FK__ReportSub__Repor__6754599E" FromRole="ReportSubmission" ToRole="ReportSubmissionHistory" />
+        </EntityType>
+        <EntityType Name="ReportSubmissionHistory">
+          <Key>
+            <PropertyRef Name="ReportSubmissionHistoryID" />
+          </Key>
+          <Property Name="ReportSubmissionHistoryID" Type="Int32" Nullable="false" />
+          <Property Name="ReportSubmissionID" Type="Int32" Nullable="false" />
+          <Property Name="DateSubmitted" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="ReportSubmission" Relationship="Self.FK__ReportSub__Repor__6754599E" FromRole="ReportSubmissionHistory" ToRole="ReportSubmission" />
+        </EntityType>
+        <EntityType Name="ReportType">
+          <Key>
+            <PropertyRef Name="ReportTypeID" />
+          </Key>
+          <Property Name="ReportTypeID" Type="Int16" Nullable="false" />
+          <Property Name="ProgramID" Type="Int16" Nullable="false" />
+          <Property Name="ReportTitle" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ReportFrequency" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Program" Relationship="Self.FK__ReportTyp__Progr__656C112C" FromRole="ReportType" ToRole="Program" />
+          <NavigationProperty Name="ReportSubmissions" Relationship="Self.FK__ReportSub__Repor__6477ECF3" FromRole="ReportType" ToRole="ReportSubmission" />
+        </EntityType>
+        <Association Name="FK__Attachmen__Repor__66603565">
+          <End Role="ReportSubmission" Type="Self.ReportSubmission" Multiplicity="1" />
+          <End Role="Attachment" Type="Self.Attachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportSubmission">
+              <PropertyRef Name="ReportSubmissionID" />
+            </Principal>
+            <Dependent Role="Attachment">
+              <PropertyRef Name="ReportSubmissionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employee__Office__3B75D760">
+          <End Role="Office" Type="Self.Office" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Office">
+              <PropertyRef Name="OfficeID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="OfficeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employee__Positi__3A81B327">
+          <End Role="Position" Type="Self.Position" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="PositionID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="PositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ReportSub__Submi__01142BA1">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="ReportSubmission" Type="Self.ReportSubmission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="ReportSubmission">
+              <PropertyRef Name="SubmittedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ReportTyp__Progr__656C112C">
+          <End Role="Program" Type="Self.Program" Multiplicity="1" />
+          <End Role="ReportType" Type="Self.ReportType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Program">
+              <PropertyRef Name="ProgramID" />
+            </Principal>
+            <Dependent Role="ReportType">
+              <PropertyRef Name="ProgramID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ReportSub__Repor__6477ECF3">
+          <End Role="ReportType" Type="Self.ReportType" Multiplicity="1" />
+          <End Role="ReportSubmission" Type="Self.ReportSubmission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportType">
+              <PropertyRef Name="ReportTypeID" />
+            </Principal>
+            <Dependent Role="ReportSubmission">
+              <PropertyRef Name="ReportTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ReportSub__Repor__6754599E">
+          <End Role="ReportSubmission" Type="Self.ReportSubmission" Multiplicity="1" />
+          <End Role="ReportSubmissionHistory" Type="Self.ReportSubmissionHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportSubmission">
+              <PropertyRef Name="ReportSubmissionID" />
+            </Principal>
+            <Dependent Role="ReportSubmissionHistory">
+              <PropertyRef Name="ReportSubmissionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DILG_DBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Attachments" EntityType="Self.Attachment" />
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="Offices" EntityType="Self.Office" />
+          <EntitySet Name="Positions" EntityType="Self.Position" />
+          <EntitySet Name="Programs" EntityType="Self.Program" />
+          <EntitySet Name="ReportSubmissions" EntityType="Self.ReportSubmission" />
+          <EntitySet Name="ReportSubmissionHistories" EntityType="Self.ReportSubmissionHistory" />
+          <EntitySet Name="ReportTypes" EntityType="Self.ReportType" />
+          <AssociationSet Name="FK__Attachmen__Repor__66603565" Association="Self.FK__Attachmen__Repor__66603565">
+            <End Role="ReportSubmission" EntitySet="ReportSubmissions" />
+            <End Role="Attachment" EntitySet="Attachments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employee__Office__3B75D760" Association="Self.FK__Employee__Office__3B75D760">
+            <End Role="Office" EntitySet="Offices" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employee__Positi__3A81B327" Association="Self.FK__Employee__Positi__3A81B327">
+            <End Role="Position" EntitySet="Positions" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ReportSub__Submi__01142BA1" Association="Self.FK__ReportSub__Submi__01142BA1">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="ReportSubmission" EntitySet="ReportSubmissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ReportTyp__Progr__656C112C" Association="Self.FK__ReportTyp__Progr__656C112C">
+            <End Role="Program" EntitySet="Programs" />
+            <End Role="ReportType" EntitySet="ReportTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ReportSub__Repor__6477ECF3" Association="Self.FK__ReportSub__Repor__6477ECF3">
+            <End Role="ReportType" EntitySet="ReportTypes" />
+            <End Role="ReportSubmission" EntitySet="ReportSubmissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ReportSub__Repor__6754599E" Association="Self.FK__ReportSub__Repor__6754599E">
+            <End Role="ReportSubmission" EntitySet="ReportSubmissions" />
+            <End Role="ReportSubmissionHistory" EntitySet="ReportSubmissionHistories" />
+          </AssociationSet>
+          <EntitySet Name="sysdiagrams" EntityType="DILG_DBModel.sysdiagram" />
+        </EntityContainer>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DILG_DBModelStoreContainer" CdmEntityContainer="DILG_DBEntities">
+          <EntitySetMapping Name="Attachments">
+            <EntityTypeMapping TypeName="DILG_DBModel.Attachment">
+              <MappingFragment StoreEntitySet="Attachment">
+                <ScalarProperty Name="AttachmentID" ColumnName="AttachmentID" />
+                <ScalarProperty Name="ReportSubmissionID" ColumnName="ReportSubmissionID" />
+                <ScalarProperty Name="Filename" ColumnName="Filename" />
+                <ScalarProperty Name="UploadedFile" ColumnName="UploadedFile" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="DILG_DBModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="PositionID" ColumnName="PositionID" />
+                <ScalarProperty Name="OfficeID" ColumnName="OfficeID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Offices">
+            <EntityTypeMapping TypeName="DILG_DBModel.Office">
+              <MappingFragment StoreEntitySet="Office">
+                <ScalarProperty Name="OfficeID" ColumnName="OfficeID" />
+                <ScalarProperty Name="OfficeName" ColumnName="OfficeName" />
+                <ScalarProperty Name="Abbr" ColumnName="Abbr" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Positions">
+            <EntityTypeMapping TypeName="DILG_DBModel.Position">
+              <MappingFragment StoreEntitySet="Position">
+                <ScalarProperty Name="PositionID" ColumnName="PositionID" />
+                <ScalarProperty Name="PositionName" ColumnName="PositionName" />
+                <ScalarProperty Name="Abbr" ColumnName="Abbr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Programs">
+            <EntityTypeMapping TypeName="DILG_DBModel.Program">
+              <MappingFragment StoreEntitySet="Program">
+                <ScalarProperty Name="ProgramID" ColumnName="ProgramID" />
+                <ScalarProperty Name="ProgramName" ColumnName="ProgramName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReportSubmissions">
+            <EntityTypeMapping TypeName="DILG_DBModel.ReportSubmission">
+              <MappingFragment StoreEntitySet="ReportSubmission">
+                <ScalarProperty Name="ReportSubmissionID" ColumnName="ReportSubmissionID" />
+                <ScalarProperty Name="SubmittedBy" ColumnName="SubmittedBy" />
+                <ScalarProperty Name="ReviewidBy" ColumnName="ReviewidBy" />
+                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+                <ScalarProperty Name="ReportTypeID" ColumnName="ReportTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReportSubmissionHistories">
+            <EntityTypeMapping TypeName="DILG_DBModel.ReportSubmissionHistory">
+              <MappingFragment StoreEntitySet="ReportSubmissionHistory">
+                <ScalarProperty Name="ReportSubmissionHistoryID" ColumnName="ReportSubmissionHistoryID" />
+                <ScalarProperty Name="ReportSubmissionID" ColumnName="ReportSubmissionID" />
+                <ScalarProperty Name="DateSubmitted" ColumnName="DateSubmitted" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReportTypes">
+            <EntityTypeMapping TypeName="DILG_DBModel.ReportType">
+              <MappingFragment StoreEntitySet="ReportType">
+                <ScalarProperty Name="ReportTypeID" ColumnName="ReportTypeID" />
+                <ScalarProperty Name="ProgramID" ColumnName="ProgramID" />
+                <ScalarProperty Name="ReportTitle" ColumnName="ReportTitle" />
+                <ScalarProperty Name="ReportFrequency" ColumnName="ReportFrequency" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DILG_DBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
